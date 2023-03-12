@@ -1,25 +1,31 @@
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 
-function App() {
+
+function Accueil() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <img src={logo} alt="Logo du collège" />
+      <nav>
+      <ul>
+        <li>
+          <a href="/">Accueil</a>
+        </li>
+        <li>
+          <a href="/professeurs">Professeurs</a>
+        </li>
+        <li>
+          <a href="/cours">Cours</a>
+        </li>
+      </ul>
+    </nav>
+      <p>Bienvenue sur notre application de gestion d'inscriptions à des cours. Vous pouvez utiliser les liens dans le menu de navigation pour accéder aux différentes pages de l'application.</p>
     </div>
+    
   );
 }
 
-export default App;
+
+
+
+export default Accueil;
