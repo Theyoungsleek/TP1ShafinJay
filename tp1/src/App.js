@@ -1,26 +1,22 @@
 import logo from './logo.png';
 import './App.css';
+import {BrowserRouter as Router,Route,Redirect,Switch} from "react-router-dom";
+import MenuNavigation from "./Navigation/MenuNavigation";
+import Professeurs from "./Navigation/components/Professeurs"
 
 
 function Accueil() {
   return (
-    <div>
-      <img src={logo} alt="Logo du collège" />
-      <nav>
-      <ul>
-        <li>
-          <a href="/">Accueil</a>
-        </li>
-        <li>
-          <a href="/professeurs">Professeurs</a>
-        </li>
-        <li>
-          <a href="/cours">Cours</a>
-        </li>
-      </ul>
-    </nav>
-      <p>Bienvenue sur notre application de gestion d'inscriptions à des cours. Vous pouvez utiliser les liens dans le menu de navigation pour accéder aux différentes pages de l'application.</p>
-    </div>
+    <Router>
+      <MenuNavigation />
+      <main>
+        <Switch>
+          <Route path="/" exact>
+            <Professeurs />
+          </Route>
+        </Switch>
+      </main>
+    </Router>
     
   );
 }
