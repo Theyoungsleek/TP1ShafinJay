@@ -3,7 +3,8 @@ import './App.css';
 import {BrowserRouter as Router,Route,Redirect,Switch} from "react-router-dom";
 import MenuNavigation from "./Navigation/MenuNavigation";
 import Professeurs from "./Navigation/components/Professeurs";
-import accueil from "./Navigation/components/Acceuil";
+
+import Cours from "./Navigation/components/Cours";
 
 
 function Accueil() {
@@ -13,10 +14,13 @@ function Accueil() {
       <main>
         <Switch>
           <Route path="/" exact>
-          <accueil />
+   
           </Route>
           <Route path="/professeurs">
             <Professeurs />
+          </Route>
+          <Route path="/cours">
+            <Cours />
           </Route>
         </Switch>
       </main>
