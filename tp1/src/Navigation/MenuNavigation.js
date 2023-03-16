@@ -29,7 +29,8 @@ function MenuNavigation(props){
               </SideDrawer>
 
               <MainHeader>
-                <img className="main-navigation_title" src={logo} width="200px" alt="Logo du collège" onClick={ouvrirTiroir}/>
+                <Link to="/">
+                <img className="main-navigation_title" src={logo} width="200px" alt="Logo du collège" /></Link>
                 <nav className="main-navigation_header-nav">
                     <NavLinks />
                 </nav>

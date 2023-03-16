@@ -1,75 +1,78 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-function Course(props) {
-  return (
-    <div>
-      <h2>{props.title}</h2>
-      <p>{props.description}</p>
-    </div>
-  );
-}
+import { Link, Route } from "react-router-dom";
+import CoursePage from "./CoursePage";
 
 function Cours(props) {
-  const [coursList, setCoursList] = useState([
-    { title: "Web et bases de données", description: "Description de Web et bases de données" },
-    { title: "Contexte professionnel", description: "Description de Contexte professionnel" },
-    { title: "Analyse et conception de modèles", description: "Description de Analyse et conception de modèles" },
-    { title: "Objet connectés", description: "Description de Objet connectés" },
-    { title: "Environnement graphique client/serveur", description: "Description de Environnement graphique client/serveur" },
+  const [newCours, setNewCours] = useState({ title: "", description: "" });
+  const [students, setStudents] = useState([
+    { name: "John", class: "Web et bases de données" },
+    { name: "Jane", class: "Web et bases de données" },
+    { name: "Mike", class: "Web et bases de données" },
+    { name: "Bob", class: "Web et bases de données" },
   ]);
 
-  const [newCours, setNewCours] = useState("");
-
   const handleInputChange = (event) => {
-    setNewCours(event.target.value);
+    const { name, value } = event.target;
+    setNewCours((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (newCours) {
-      setCoursList([...coursList, { title: newCours, description: "" }]);
-      setNewCours("");
-    }
+    props.addCours(newCours);
+    setNewCours({ title: "", description: "" });
   };
 
-  const handleCourseClick = (index) => {
-    const updatedCoursList = [...coursList];
-    updatedCoursList[index].description = "Description de " + updatedCoursList[index].title;
-    setCoursList(updatedCoursList);
-    props.history.push(`/cours/${updatedCoursList[index].title}`);
+  const handleStudentSignup = (name, className) => {
+    const newStudents = [...students];
+    const classSize = newStudents.filter((student) => student.class === className).length;
+    const isAlreadySignedUp = newStudents.some((student) => student.name === name);
+
+    if (classSize < 5 && !isAlreadySignedUp) {
+      newStudents.push({ name: name, class: className });
+      setStudents(newStudents);
+    }
   };
 
   return (
     <div>
-      <h2>Cours</h2>
+      <h1>Liste des cours</h1>
       <ul>
-        {coursList.map((cours, index) => (
+        {props.coursList.map((cours, index) => (
           <li key={index}>
-            <Link to={`/cours/${cours.title}`} onClick={() => handleCourseClick(index)}>
-              {cours.title}
+            <Link to={`/cours/${index}`}>
+              {cours.title} ({students.filter((student) => student.class === cours.title).length}/5)
             </Link>
           </li>
         ))}
       </ul>
       <form onSubmit={handleFormSubmit}>
-        <label htmlFor="newCours">Nouveau Cours:</label>
-        <input
-          type="text"
-          id="newCours"
-          name="newCours"
-          value={newCours}
-          onChange={handleInputChange}
-        />
+        <div>
+          <label htmlFor="title">Titre</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={newCours.title}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            value={newCours.description}
+            onChange={handleInputChange}
+          />
+        </div>
         <button type="submit">Ajouter</button>
       </form>
-      <Switch>
-        {coursList.map((cours, index) => (
-          <Route path={`/cours/${cours.title}`} key={index}>
-            <Course title={cours.title} description={cours.description} />
-          </Route>
-        ))}
-      </Switch>
+      <Route path="/cours/:id">
+        <CoursePage cours={props.coursList} handleStudentSignup={handleStudentSignup} />
+      </Route>
     </div>
   );
 }
